@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollConverter", "PayrollConverter.csproj", "{8807F23C-92E0-4F7A-96D7-74FF9060FBE9}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "..\Setup\Setup.vdproj", "{B9BD1C2B-A97D-439D-8B65-A5D8BDA393E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8807F23C-92E0-4F7A-96D7-74FF9060FBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8807F23C-92E0-4F7A-96D7-74FF9060FBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8807F23C-92E0-4F7A-96D7-74FF9060FBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8807F23C-92E0-4F7A-96D7-74FF9060FBE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9BD1C2B-A97D-439D-8B65-A5D8BDA393E1}.Debug|Any CPU.ActiveCfg = Debug
+		{B9BD1C2B-A97D-439D-8B65-A5D8BDA393E1}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD8164DB-909B-4A66-8469-7689BC492DE9}
+	EndGlobalSection
+EndGlobal
