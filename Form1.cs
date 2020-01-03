@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Specialized;
 
 namespace PayrollConverter
 {
@@ -52,12 +55,33 @@ namespace PayrollConverter
             dataGridView2.Columns.Add("MT","MT");
             dataGridView2.Columns.Add("REF","REF");
 
+            // Get Values for Dictionary from Config File
+
+            var nomPaymentCodes = ConfigurationManager.GetSection("NominalCodes/NominalPaymentCodes") as NameValueCollection;
+            foreach (var key in nomPaymentCodes.AllKeys)
+            {
+                NominalPayment.nomCodes.Add(key, nomPaymentCodes[key]);
+            }
+
+            var nomReceiptCodes = ConfigurationManager.GetSection("NominalCodes/NominalReceiptCodes") as NameValueCollection;
+            foreach(var key in nomReceiptCodes.AllKeys)
+            {
+                NominalReceipt.nomCodes.Add(key, nomReceiptCodes[key]);
+            }
+
+            var departmentCodes = ConfigurationManager.GetSection("DepartmentCodes") as NameValueCollection;
+            foreach (var key in departmentCodes.AllKeys)
+            {
+                FEMT.deptCodes.Add(key, departmentCodes[key].Split(','));
+            }
+
         }
 
         static class FEMT
         {
             public static Dictionary<string, string[]> deptCodes = new Dictionary<string, string[]>()
             {
+                /* REMOVED - Replaced with call to App.Config - See Initization
                 {"1", new string[] {"COMM","CORP"} },
                 {"2", new string[] {"COMM","CLI1"} },
                 {"4", new string[] {"COMM","CLI2"} },
@@ -76,8 +100,8 @@ namespace PayrollConverter
                 {"19", new string[] {"PRIV","FAM"} },
                 {"20", new string[] {"PRIV","INH"} },
                 {"22", new string[] {"PRIV","FAM3"} },
-                {"BLHR & Employment", new string[] {"ZHR","ZHR1"} },
-                {"IP", new string[] {"COMM","ZIP"} }
+                {"BLHR & Employment", new string[] {"ZHR","ZHR1"}},
+                {"IP", new string[] {"COMM","ZIP"} }*/
             };
         }
 
@@ -85,11 +109,12 @@ namespace PayrollConverter
         {
             public static Dictionary<string, string> nomCodes = new Dictionary<string, string>()
             {
-                {"PRE_TAX", "200100"},
+                /* REMOVED - Replaced with call to App.Config - See Initization
+                {"PRE_TAX", "200100"}, // Do not report on the Pre Tax Add/Ded column
                 {"ABS", "100100"},
                 {"TAX_PAY", "200100"},
-                {"ER_PEN_NP", "200100"},
-                {"NET_ER_NI_NP", "200100"}
+                {"ER_PEN_NP", "200300"},
+                {"NET_ER_NI_NP", "200200"}*/
             };
         }
 
@@ -97,14 +122,22 @@ namespace PayrollConverter
         {
             public static Dictionary<string, string> nomCodes = new Dictionary<string, string>()
             {
+                /*  REMOVED - Replaced with call to App.Config - See Initization
                 {"SLOAN", "800100"},
                 {"NET_ER_NI", "800100"},
                 {"NET_EE_NI", "800100"},
                 {"TAX", "800100"},
                 {"ER_PEN", "800300"}, // this is also 200100 so build a rule for this specific column
                 {"POST_PEN", "800300"},
-                {"NET_PAY", "800200"}
+                {"NET_PAY", "800200"}*/
             };
+
+        }
+
+        static class ContraTotals
+        {
+            public static decimal NP_Contra = 0;
+            public static decimal NR_Contra = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -196,99 +229,91 @@ namespace PayrollConverter
                         sosFE = dataGridView1.Rows[dr.Index].Cells["DEPT"].Value.ToString();
                     }
 
-                    rowIndex = dataGridView2.Rows.Add();
-                                      
-                    CreateExportGridRecord(dataGridView2, "PRE_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    // 21-Nov: spoke to Wendy and we do not need to import this column, only the TAX_PAY column
+                    //rowIndex = dataGridView2.Rows.Add();                
+                    //CreateExportGridRecord(dataGridView2, "PRE_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "GU", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "GU", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "ABS_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "ABS_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "HOL_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "HOL_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "PRE_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "PRE_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "TAX_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "TAX_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "NET_EE_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "NET_EE_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "POST_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "POST_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "POST_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "POST_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "AEO", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "AEO", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "SLOAN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "SLOAN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "NET_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
-
-                    // Employer Pension and NI payments appear twice!
                     rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "NET_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
+                    // Employer Pension and NI payments appear twice! The first set is for Nominal Payments of ER related costs "true"
+                    rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
-
                     CreateExportGridRecord(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    rowIndex = dataGridView2.Rows.Add();
+                    CreateExportGridRecordO099(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
-
-                    /*for (int i = 0; i < dataGridView1.Columns.Count; i++)
-                    {
-                        
-                        //dataGridView2.Rows[dr.Index] = dr.Cells[i].Value.ToString();
-                        Console.WriteLine("Row" + dr.Index + " Cell " + i);
-                        Console.WriteLine(dataGridView1.Rows[dr.Index].Cells[i].Value.ToString());
-
-                        // replace the FE column number with the deptCode lookup
-
-                        string[] deptName = { "", "" };
-
-                        if(dataGridView1.Columns[i].HeaderText == "FE"){ // this will be Cost-Centre in raw file
-                            //bool deptFound = Globals.deptCodes.   TryGetValue(dataGridView1.Rows[dr.Index].Cells[i].Value.ToString(), out deptName);
-                            if (FEMT.deptCodes.ContainsKey(dataGridView1.Rows[dr.Index].Cells[i].Value.ToString()))
-                            {
-                                dataGridView2.Rows[dr.Index].Cells[i].Value = FEMT.deptCodes[dataGridView1.Rows[dr.Index].Cells[i].Value.ToString()][0];
-                                //i++;
-                                //dataGridView2.Rows[dr.Index].Cells[i].Value = Globals.deptCodes[dataGridView1.Rows[dr.Index].Cells[i].Value.ToString()][1];
-                            }
-                        } else {
-                            dataGridView2.Rows[dr.Index].Cells[i].Value = dataGridView1.Rows[dr.Index].Cells[i].Value.ToString();
-                        }
-                    } */
                 }
 
             } 
@@ -305,9 +330,12 @@ namespace PayrollConverter
             string[] lines = whole_file.Split(new char[] { '\r' },
                 StringSplitOptions.RemoveEmptyEntries);
 
+            // Use regex split to irnore commas imbedded into double quotes
+
             // See how many rows and columns there are.
             int num_rows = lines.Length;
-            int num_cols = lines[0].Split(',').Length;
+            //int num_cols = lines[0].Split(',').Length;
+            int num_cols = Regex.Matches(lines[0], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)").Count;
 
             // Allocate the data array.
             string[,] values = new string[num_rows, num_cols];
@@ -315,7 +343,8 @@ namespace PayrollConverter
             // Load the array.
             for (int r = 0; r < num_rows; r++)
             {
-                string[] line_r = lines[r].Split(',');
+                //string[] line_r = lines[r].Split(',');
+                string[] line_r = Regex.Split(lines[r], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 for (int c = 0; c < num_cols; c++)
                 {
                     values[r, c] = line_r[c];
@@ -326,53 +355,141 @@ namespace PayrollConverter
             return values;
         }
 
-        private void CreateExportGridRecord(DataGridView DGV2, string reference, int rowIndex2, DataGridView DGV1, int rowIndex1, string FE, string MT, string NARRATIVE, string BR, bool ERFlag)
+        private void CreateExportGridRecord(DataGridView DGV2, string reference, int rowIndex2, DataGridView DGV1, int rowIndex1, string FE, string MT, string NARRATIVE, string BR, bool NPFlag)
         {
             // Note, all ER values are added as a NR and PR
 
             decimal amount;
+            string nominalCodeLookup;
+
+            if (NPFlag == true) 
+            {
+                nominalCodeLookup = reference + "_NP";
+            } else
+            {
+                nominalCodeLookup = reference;
+            }
 
             DGV2.Rows[rowIndex2].Cells["BR"].Value = BR;
             DGV2.Rows[rowIndex2].Cells["NARRATIVE"].Value = NARRATIVE;
 
             DGV2.Rows[rowIndex2].Cells["REF"].Value = DGV1.Columns[reference].HeaderText;
 
-            if (NominalPayment.nomCodes.ContainsKey(reference) && ERFlag == false) 
+            if (NominalPayment.nomCodes.ContainsKey(nominalCodeLookup)) 
             {
-                DGV2.Rows[rowIndex2].Cells["CODE"].Value = NominalPayment.nomCodes[reference].ToString();
+                DGV2.Rows[rowIndex2].Cells["CODE"].Value = NominalPayment.nomCodes[nominalCodeLookup].ToString();
                 DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Green;
                 DGV2.Rows[rowIndex2].Cells["FE"].Value = FE;
                 DGV2.Rows[rowIndex2].Cells["MT"].Value = MT;
 
-                DGV2.Rows[rowIndex2].Cells["DR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
+                // ToDo: KC this isn't quite right sure NPs can have DRs and CRs?
 
-                // override color is value is ZERO.
+                    DGV2.Rows[rowIndex2].Cells["DR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
+                
+                // override color is value is ZERO eslse update the NP Total
                 if (Decimal.TryParse(DGV1.Rows[rowIndex1].Cells[reference].Value.ToString(), out amount))
                 {
-                    if (amount <= 0)
+                    if (amount == 0)
                     {
                         DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
+                    } else 
+                    {
+                        ContraTotals.NP_Contra = ContraTotals.NP_Contra + amount;
+                        NP_ContraTotal.Text = string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("en-GB"),"{0:C}", ContraTotals.NP_Contra);
                     }
                 }
 
             } else
             {
-                if (NominalReceipt.nomCodes.ContainsKey(reference)) 
+                if (NominalReceipt.nomCodes.ContainsKey(nominalCodeLookup)) 
                 {
-                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = NominalReceipt.nomCodes[reference].ToString();
+                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = NominalReceipt.nomCodes[nominalCodeLookup].ToString();
                     DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.PaleVioletRed;
 
                     DGV2.Rows[rowIndex2].Cells["CR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
                     // override color is value is ZERO.
                     if (Decimal.TryParse(DGV1.Rows[rowIndex1].Cells[reference].Value.ToString(), out amount))
                     {
-                        if (amount <= 0)
+                        if (amount == 0)
+                        {
+                            DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
+                        } else 
+                        {
+                            ContraTotals.NR_Contra = ContraTotals.NR_Contra  + amount;
+                            NR_ContraTotal.Text = string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("en-GB"), "{0:C}", ContraTotals.NR_Contra);
+                        }
+                    }
+
+                } else 
+                {
+                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = "XXXXXX";
+                    DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
+                }
+            }
+        }
+
+        private void CreateExportGridRecordO099(DataGridView DGV2, string reference, int rowIndex2, DataGridView DGV1, int rowIndex1, string FE, string MT, string NARRATIVE, string BR, bool NPFlag)
+        {
+            // Note, all ER values are added as a NR and PR
+            // for every value posted to NP or NR we need to post a dummy posting to account O099
+
+            decimal amount;
+            string nominalCodeLookup;
+
+            if (NPFlag == true)
+            {
+                nominalCodeLookup = reference + "_NP";
+            }
+            else
+            {
+                nominalCodeLookup = reference;
+            }
+
+            DGV2.Rows[rowIndex2].Cells["BR"].Value = BR;
+            DGV2.Rows[rowIndex2].Cells["NARRATIVE"].Value = NARRATIVE;
+
+            DGV2.Rows[rowIndex2].Cells["REF"].Value = DGV1.Columns[reference].HeaderText;
+
+            if (NominalPayment.nomCodes.ContainsKey(nominalCodeLookup))
+            {
+                DGV2.Rows[rowIndex2].Cells["CODE"].Value = "O099";
+                DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Green;
+                DGV2.Rows[rowIndex2].Cells["FE"].Value = FE;
+                DGV2.Rows[rowIndex2].Cells["MT"].Value = MT;
+
+                // ToDo: KC this isn't quite right sure NPs can have DRs and CRs?
+
+                DGV2.Rows[rowIndex2].Cells["CR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
+
+                // override color is value is ZERO eslse update the NP Total
+                if (Decimal.TryParse(DGV1.Rows[rowIndex1].Cells[reference].Value.ToString(), out amount))
+                {
+                    if (amount == 0)
+                    {
+                        DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
+                    }
+                }
+
+            }
+            else
+            {
+                if (NominalReceipt.nomCodes.ContainsKey(nominalCodeLookup))
+                {
+                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = "O099";
+                    DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.PaleVioletRed;
+
+                    DGV2.Rows[rowIndex2].Cells["DR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
+                    // override color is value is ZERO.
+                    if (Decimal.TryParse(DGV1.Rows[rowIndex1].Cells[reference].Value.ToString(), out amount))
+                    {
+                        if (amount == 0)
                         {
                             DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
                         }
                     }
 
-                } else 
+                }
+                else
                 {
                     DGV2.Rows[rowIndex2].Cells["CODE"].Value = "XXXXXX";
                     DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Gray;
@@ -480,6 +597,18 @@ namespace PayrollConverter
         private void button2_Click(object sender, EventArgs e)
         {
             SaveToCSV(dataGridView2);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow dr in dataGridView2.Rows)
+            {
+                if (dr.DefaultCellStyle.BackColor == Color.Gray)
+                { 
+                    if (dr.Visible.Equals(true)) { dr.Visible = false; } else { dr.Visible = true; }
+                }
+ 
+            }
         }
     }
 }
