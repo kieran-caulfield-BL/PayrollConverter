@@ -236,83 +236,83 @@ namespace PayrollConverter
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "GU", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "GU", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "GU", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "ABS_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "ABS_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "ABS_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "HOL_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "HOL_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "HOL_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "PRE_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "PRE_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "PRE_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "TAX_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "TAX_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "TAX_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "NET_EE_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "NET_EE_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "NET_EE_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "POST_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "POST_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "POST_TAX", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "POST_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "POST_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "POST_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "AEO", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "AEO", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "AEO", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "SLOAN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "SLOAN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "SLOAN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "NET_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "NET_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "NET_PAY", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     // Employer Pension and NI payments appear twice! The first set is for Nominal Payments of ER related costs "true"
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
+                    CreateExportGridRecord800350(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
+                    CreateExportGridRecord800350(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, true);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "NET_ER_NI", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                     rowIndex = dataGridView2.Rows.Add();
                     CreateExportGridRecord(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
                     rowIndex = dataGridView2.Rows.Add();
-                    CreateExportGridRecordO099(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
+                    CreateExportGridRecord800350(dataGridView2, "ER_PEN", rowIndex, dataGridView1, dr.Index, sosFE, sosMT, sosNarrative, sosBR, false);
 
                 }
 
@@ -428,10 +428,11 @@ namespace PayrollConverter
             }
         }
 
-        private void CreateExportGridRecordO099(DataGridView DGV2, string reference, int rowIndex2, DataGridView DGV1, int rowIndex1, string FE, string MT, string NARRATIVE, string BR, bool NPFlag)
+        private void CreateExportGridRecord800350(DataGridView DGV2, string reference, int rowIndex2, DataGridView DGV1, int rowIndex1, string FE, string MT, string NARRATIVE, string BR, bool NPFlag)
         {
             // Note, all ER values are added as a NR and PR
             // for every value posted to NP or NR we need to post a dummy posting to account O099
+            // KC: 23/2/2020 - Wendy reports that we can not longer use O099 "theres an accounting reason" so switch to 800350
 
             decimal amount;
             string nominalCodeLookup;
@@ -452,7 +453,7 @@ namespace PayrollConverter
 
             if (NominalPayment.nomCodes.ContainsKey(nominalCodeLookup))
             {
-                DGV2.Rows[rowIndex2].Cells["CODE"].Value = "O099";
+                DGV2.Rows[rowIndex2].Cells["CODE"].Value = "800350";
                 DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.Green;
                 DGV2.Rows[rowIndex2].Cells["FE"].Value = FE;
                 DGV2.Rows[rowIndex2].Cells["MT"].Value = MT;
@@ -475,7 +476,7 @@ namespace PayrollConverter
             {
                 if (NominalReceipt.nomCodes.ContainsKey(nominalCodeLookup))
                 {
-                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = "O099";
+                    DGV2.Rows[rowIndex2].Cells["CODE"].Value = "800350";
                     DGV2.Rows[rowIndex2].DefaultCellStyle.BackColor = Color.PaleVioletRed;
 
                     DGV2.Rows[rowIndex2].Cells["DR"].Value = DGV1.Rows[rowIndex1].Cells[reference].Value;
@@ -502,15 +503,16 @@ namespace PayrollConverter
             string filename = "";
             SaveFileDialog sfd = new SaveFileDialog();
             //sfd.Filter = "CSV (*.csv)|*.csv";
-            sfd.FileName = "SOS-Nominal-Import";
+            string todayDate = DateTime.Now.ToString("dd-MM-yyyy");
+            sfd.FileName = "SOS-Nominal-Import-" + todayDate;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show("Data will be exported and you will be notified when it is ready.");
-                if (File.Exists(filename + "-NP"))
+                if (File.Exists(filename + "-NP.csv"))
                 {
                     try
                     {
-                        File.Delete(filename + "-NP");
+                        File.Delete(filename + "-NP.csv");
                     }
                     catch (IOException ex)
                     {
@@ -518,11 +520,11 @@ namespace PayrollConverter
                     }
                 }
 
-                if (File.Exists(filename + "-NR"))
+                if (File.Exists(filename + "-NR.csv"))
                 {
                     try
                     {
-                        File.Delete(filename + "-NR");
+                        File.Delete(filename + "-NR.csv");
                     }
                     catch (IOException ex)
                     {
@@ -560,7 +562,7 @@ namespace PayrollConverter
 
                 //sfd.FileName = "SOS-Nominal-Import-NP";
 
-                System.IO.File.WriteAllLines(sfd.FileName+"-NP", outputNP, System.Text.Encoding.UTF8);
+                System.IO.File.WriteAllLines(sfd.FileName+"-NP.csv", outputNP, System.Text.Encoding.UTF8);
 
                 x = 0; // total of all lines written to output
                 for (int i = 0; i < DGV.RowCount; i++)
@@ -589,9 +591,9 @@ namespace PayrollConverter
 
                 //sfd.FileName = "SOS-Nominal-Import-NR";
 
-                System.IO.File.WriteAllLines(sfd.FileName+"-NR", outputNR, System.Text.Encoding.UTF8);
+                System.IO.File.WriteAllLines(sfd.FileName+"-NR.csv", outputNR, System.Text.Encoding.UTF8);
 
-                MessageBox.Show("Your file was generated and its ready for use.");
+                MessageBox.Show("Your files was generated and are ready for use.");
             }
         }
         private void button2_Click(object sender, EventArgs e)
