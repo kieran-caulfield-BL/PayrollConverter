@@ -20,6 +20,8 @@ namespace PayrollConverter
         {
             InitializeComponent();
 
+            // Initial Version KC 12/5/2020
+
             // set the headers in grid 2 for the SOS Import Nominal Postings file
             dataGridView1.Columns.Add("BR", "Branch"); // col 0
             dataGridView1.Columns.Add("DEPT", "Dept"); // col 63 split 1
