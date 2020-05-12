@@ -152,56 +152,8 @@ namespace PayrollConverter
                 {
                     // Get the data.
                     string[,] values = LoadCsv(file);
-                    int num_rows = values.GetUpperBound(0) + 1;
-                    int num_cols = values.GetUpperBound(1) + 1;
-                    // Display the data to show we have it.
-
-                    // Set the iterator, on col 63 "n Cost Ctr Total This Period"
-                    string newDept = "";
-                    int dGV1RowCount = 0;
-
-                    // Add the data. (reset to 1 if data file contains headers)
-                    for (int r = 0; r < num_rows; r++)
-                    {
-
-                        if(values[r, 63] == newDept) 
-                        {
-                            continue;
-                        }
-                       
-                        dataGridView1.Rows.Add();
-
-                        newDept = values[r, 63].ToString();
-                        
-                        /*for (int c = 0; c < num_cols; c++)
-                        {
-                            //dataGridView1.Rows[r - 1].Cells[c].Value = values[r, c];
-                            dataGridView1.Rows[r].Cells[c].Value = values[r, c];
-                        }*/
-                        dataGridView1.Rows[dGV1RowCount].Cells[0].Value = values[r, 0];
-                        int deptNameLength = values[r, 63].ToString().Length;
-                        dataGridView1.Rows[dGV1RowCount].Cells[1].Value = values[r, 63].ToString().Substring(0,deptNameLength - 27);
-                        dataGridView1.Rows[dGV1RowCount].Cells[2].Value = values[r, 5];
-
-                        dataGridView1.Rows[dGV1RowCount].Cells[3].Value = values[r, 64];
-                        dataGridView1.Rows[dGV1RowCount].Cells[4].Value = values[r, 65];
-                        dataGridView1.Rows[dGV1RowCount].Cells[5].Value = values[r, 66];
-                        dataGridView1.Rows[dGV1RowCount].Cells[6].Value = values[r, 67];
-                        dataGridView1.Rows[dGV1RowCount].Cells[7].Value = values[r, 68];
-                        dataGridView1.Rows[dGV1RowCount].Cells[8].Value = values[r, 69];
-                        dataGridView1.Rows[dGV1RowCount].Cells[9].Value = values[r, 70];
-                        dataGridView1.Rows[dGV1RowCount].Cells[10].Value = values[r, 71];
-                        dataGridView1.Rows[dGV1RowCount].Cells[11].Value = values[r, 72];
-                        dataGridView1.Rows[dGV1RowCount].Cells[12].Value = values[r, 73];
-                        dataGridView1.Rows[dGV1RowCount].Cells[13].Value = values[r, 74];
-                        dataGridView1.Rows[dGV1RowCount].Cells[14].Value = values[r, 75];
-                        dataGridView1.Rows[dGV1RowCount].Cells[15].Value = values[r, 76];
-                        dataGridView1.Rows[dGV1RowCount].Cells[16].Value = values[r, 77];
-                        dataGridView1.Rows[dGV1RowCount].Cells[17].Value = values[r, 78];
-
-                        dGV1RowCount = dGV1RowCount + 1; // increment view 1 row count
-
-                    }
+                    //parseRPTFormat(values);
+                    parseCSVFormat(values);
 
                 }
                 catch (IOException)
@@ -322,8 +274,122 @@ namespace PayrollConverter
 
         }
 
-        private string[,] LoadCsv(string filename)
+        private void parseRPTFormat (string[,] values)
         {
+            int num_rows = values.GetUpperBound(0) + 1;
+            int num_cols = values.GetUpperBound(1) + 1;
+            // Display the data to show we have it.
+
+            // Set the iterator, on col 63 "n Cost Ctr Total This Period"
+            string newDept = "";
+            int dGV1RowCount = 0;
+
+            // Add the data. (reset to 1 if data file contains headers)
+            for (int r = 0; r < num_rows; r++)
+            {
+
+                if (values[r, 63] == newDept)
+                {
+                    continue;
+                }
+
+                dataGridView1.Rows.Add();
+
+                newDept = values[r, 63].ToString();
+
+                /*for (int c = 0; c < num_cols; c++)
+                {
+                    //dataGridView1.Rows[r - 1].Cells[c].Value = values[r, c];
+                    dataGridView1.Rows[r].Cells[c].Value = values[r, c];
+                }*/
+                dataGridView1.Rows[dGV1RowCount].Cells[0].Value = values[r, 0];
+                int deptNameLength = values[r, 63].ToString().Length;
+                dataGridView1.Rows[dGV1RowCount].Cells[1].Value = values[r, 63].ToString().Substring(0, deptNameLength - 27);
+                dataGridView1.Rows[dGV1RowCount].Cells[2].Value = values[r, 5];
+
+                dataGridView1.Rows[dGV1RowCount].Cells[3].Value = values[r, 64];
+                dataGridView1.Rows[dGV1RowCount].Cells[4].Value = values[r, 65];
+                dataGridView1.Rows[dGV1RowCount].Cells[5].Value = values[r, 66];
+                dataGridView1.Rows[dGV1RowCount].Cells[6].Value = values[r, 67];
+                dataGridView1.Rows[dGV1RowCount].Cells[7].Value = values[r, 68];
+                dataGridView1.Rows[dGV1RowCount].Cells[8].Value = values[r, 69];
+                dataGridView1.Rows[dGV1RowCount].Cells[9].Value = values[r, 70];
+                dataGridView1.Rows[dGV1RowCount].Cells[10].Value = values[r, 71];
+                dataGridView1.Rows[dGV1RowCount].Cells[11].Value = values[r, 72];
+                dataGridView1.Rows[dGV1RowCount].Cells[12].Value = values[r, 73];
+                dataGridView1.Rows[dGV1RowCount].Cells[13].Value = values[r, 74];
+                dataGridView1.Rows[dGV1RowCount].Cells[14].Value = values[r, 75];
+                dataGridView1.Rows[dGV1RowCount].Cells[15].Value = values[r, 76];
+                dataGridView1.Rows[dGV1RowCount].Cells[16].Value = values[r, 77];
+                dataGridView1.Rows[dGV1RowCount].Cells[17].Value = values[r, 78];
+
+                dGV1RowCount = dGV1RowCount + 1; // increment view 1 row count
+
+            }
+        }
+
+        private void parseCSVFormat(string[,] values)
+        {
+            // this is the new format from Edmund Carr as of April 2020
+            // 
+
+            int num_rows = values.GetUpperBound(0) + 1;
+            int num_cols = values.GetUpperBound(1) + 1;
+            // Display the data to show we have it.
+
+            // Set the iterator, on col 0 "n Cost Ctr Total This Period"
+            string newDept = "";
+            int dGV1RowCount = 0;
+
+            // Add the data. (reset to 1 if data file contains headers)
+            // Get repeating details from Header - line 0
+            string branchName = values[0, 0].ToString();
+            string payPeriod = values[0, 5].ToString();
+            //string branchName = "Birket";
+            //string payPeriod = "1";
+
+
+            for (int r = 1; r < num_rows; r++)
+            {
+                // only read where first column is a "Cost Ctr Total This Period" value.
+                if (!values[r, 0].ToString().Contains("Cost Ctr Total This Period"))
+                {
+                    continue;
+                }
+
+                dataGridView1.Rows.Add();
+
+                newDept = values[r, 0].ToString();
+
+                dataGridView1.Rows[dGV1RowCount].Cells[0].Value = branchName; // Branch
+                int deptNameLength = values[r, 0].ToString().Length;
+                dataGridView1.Rows[dGV1RowCount].Cells[1].Value = values[r, 0].ToString().Substring(0, deptNameLength - 27); // Team Number-Name
+                dataGridView1.Rows[dGV1RowCount].Cells[2].Value = payPeriod; // Period
+
+                dataGridView1.Rows[dGV1RowCount].Cells[3].Value = values[r, 1];
+                dataGridView1.Rows[dGV1RowCount].Cells[4].Value = values[r, 2];
+                dataGridView1.Rows[dGV1RowCount].Cells[5].Value = values[r, 3];
+                dataGridView1.Rows[dGV1RowCount].Cells[6].Value = values[r, 4];
+                dataGridView1.Rows[dGV1RowCount].Cells[7].Value = values[r, 5];
+                dataGridView1.Rows[dGV1RowCount].Cells[8].Value = values[r, 6];
+                dataGridView1.Rows[dGV1RowCount].Cells[9].Value = values[r, 7];
+                dataGridView1.Rows[dGV1RowCount].Cells[10].Value = values[r, 8];
+                dataGridView1.Rows[dGV1RowCount].Cells[11].Value = values[r, 9];
+                dataGridView1.Rows[dGV1RowCount].Cells[12].Value = values[r, 10];
+                dataGridView1.Rows[dGV1RowCount].Cells[13].Value = values[r, 11];
+                dataGridView1.Rows[dGV1RowCount].Cells[14].Value = values[r, 12];
+                dataGridView1.Rows[dGV1RowCount].Cells[15].Value = values[r, 13];
+                dataGridView1.Rows[dGV1RowCount].Cells[16].Value = values[r, 14];
+                dataGridView1.Rows[dGV1RowCount].Cells[17].Value = values[r, 15];
+
+                dGV1RowCount = dGV1RowCount + 1; // increment view 1 row count
+
+            }
+        }
+
+        private string[,] LoadRPT(string filename)
+        {
+            // This is old EC format where we had same number of columns in each line
             // Get the file's text.
             string whole_file = System.IO.File.ReadAllText(filename);
 
@@ -348,6 +414,54 @@ namespace PayrollConverter
                 //string[] line_r = lines[r].Split(',');
                 string[] line_r = Regex.Split(lines[r], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 for (int c = 0; c < num_cols; c++)
+                {
+                    values[r, c] = line_r[c];
+                }
+            }
+
+            // Return the values.
+            return values;
+        }
+        private string[,] LoadCsv(string filename)
+        {
+            // This is new format CSV that has different length lines
+            // Get the file's text.
+            string whole_file = System.IO.File.ReadAllText(filename);
+
+            // Split into lines.
+            whole_file = whole_file.Replace('\n', '\r');
+            string[] lines = whole_file.Split(new char[] { '\r' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            // Use regex split to irnore commas imbedded into double quotes
+
+            // See how many rows and columns there are.
+            int num_rows = lines.Length;
+            //int num_cols = lines[0].Split(',').Length;
+            //int num_cols = Regex.Matches(lines[0], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)").Count;
+
+            // will set the number of columns as 17 and load whatever as not interested in anuthing there after
+            int num_cols = 17;
+
+            // Allocate the data array.
+            string[,] values = new string[num_rows, num_cols];
+
+            // Load the array.
+            for (int r = 0; r < num_rows; r++)
+            {
+                string[] line_r = lines[r].Split(',');
+                //string[] line_r = Regex.Split(lines[r], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                int lineCols = line_r.GetUpperBound(0);
+                // set upper limit
+                int limit = 0;
+                if (lineCols < num_cols)
+                {
+                    limit = lineCols;
+                } else
+                {
+                    limit = num_cols;
+                }
+                for (int c = 0; c < limit; c++)
                 {
                     values[r, c] = line_r[c];
                 }
